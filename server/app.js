@@ -9,6 +9,11 @@ const authRouter = require('./routes/auth');
 const postsRouter = require('./routes/posts');
 const commentsRouter = require('./routes/comments');
 
+// Import models
+const User = require('./models/user');
+const Post = require('./models/post');
+const Comment = require('./models/comment');
+
 require('dotenv').config({ path: '../.env'});
 const PORT = process.env.PORT || 3000;
 
@@ -28,9 +33,34 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());  // Parses Cookie headers and populates req.cookies (req.cookies.<cookieName>)
 
+// Add models to req object so no need to import into each file
+app.use((req, res, next) => {
+  req.models = {
+    User,
+    Post,
+    Comment,
+  };
+
+  next();
+});
+
 // Add imported routes to middleware stack
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/comments', commentsRouter);
+
+// Handle undefined routes
+app.use((req, res, next) => {
+  const err = new Error('Not found');
+  err.status = 404;
+  next(err);
+});
+
+// Error handler for 404 responses
+// and unhandled internal errors (modelInstance.save() errors, etc)
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({ message: err.message });
+});
 
 app.listen(PORT, () => `Server listening on http://localhost:${ PORT }`)
