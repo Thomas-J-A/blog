@@ -14,6 +14,7 @@ const userSchema = Schema({
   }
 }, { timestamps: true });
 
+// Hash password before saving doc to db
 userSchema.pre('save', async function(next) {
   this.password = await bcrypt.hash(this.password, 10);
   
