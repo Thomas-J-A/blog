@@ -21,7 +21,7 @@ exports.createPost = async (req, res, next) => {
 
     await post.save();
 
-    return res.status(200).json(post);
+    return res.status(201).json(post);
   } catch (err) {
     next(err);
   }

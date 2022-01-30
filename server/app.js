@@ -63,4 +63,4 @@ app.use((err, req, res, next) => {
   res.json({ message: err.message });
 });
 
-app.listen(PORT, () => `Server listening on http://localhost:${ PORT }`)
+app.listen(PORT, () => `Server listening at http://localhost:${ PORT }`)
