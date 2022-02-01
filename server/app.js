@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const JwtStrategy = require('passport-jwt').Strategy;
 
 // Import routes
 const authRouter = require('./routes/auth');
@@ -24,6 +26,37 @@ mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true, useUnifiedTopolo
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
+// Set up JWT strategy
+const extractJwtFromCookie = (req) => {
+  let token = null;
+
+  if (req && req.cookies) {
+    token = req.cookies['jwt'];
+  }
+
+  return token;
+};
+
+const opts = {
+  jwtFromRequest: extractJwtFromCookie,
+  secretOrKey: process.env.JWT_SECRET,
+  passReqToCallback: true,
+};
+
+passport.use(new JwtStrategy(opts, (req, jwt_payload, done) => {
+  req.models.User.findOne({ _id: jwt_payload.sub }, (err, user) => {
+    if (err) {
+      return done(err, false);
+    }
+
+    if (user) {
+      return done(null, user);
+    } else {
+      return done(null, false);
+    }
+  });
+}));
+
 // Set up middlewares
 app.use(morgan('dev'));
 app.use(cors({ 
@@ -32,6 +65,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());  // Parses Cookie headers and populates req.cookies (req.cookies.<cookieName>)
+app.use(passport.initialize());
 
 // Add models to req object so no need to import into each file
 app.use((req, res, next) => {
