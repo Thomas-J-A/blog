@@ -30,7 +30,7 @@ const Register = () => {
       .required('Required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
-      .max(20, 'Password must be less than 20 characters')
+      .max(12, 'Password must be less than 12 characters')
       .required('Required'),
     passwordConfirmation: Yup.string()
       .oneOf([Yup.ref('password')], 'Passwords must match')

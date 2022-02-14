@@ -3,16 +3,29 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../context/auth';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
+const Login = () => {
   const navigate = useNavigate();
   const { setCurrentUser } = useAuth();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const initialValues = {
+    email: '',
+    password: '',
+  };
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Invalid email')
+      .required('Required'),
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .max(12, 'Password must be less than 12 characters')
+      .required('Required'),
+  });
+
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       const response = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
@@ -22,16 +35,34 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email,
-          password,
+          email: values.email,
+          password: values.password,
         }),
       });
 
-      const user = await response.json();
-      setCurrentUser(user);
-      navigate('/');
+      const body = await response.json();
+
+      if (response.status === 200) {
+        // Form submission successful on server
+        setCurrentUser(body);
+        return navigate('/');
+      }
+
+      if (response.status === 401) {
+        // Either email or password is incorrect
+        if (body.message === 'Invalid email') {
+          return setFieldError('email', 'Email not found');
+        }
+
+        return setFieldError('password', 'Password incorrect')
+      }
+
+      if (response.status === 500) {
+        // Unknown error on server, caught by Express error handling middleware
+        throw new Error(body.message);
+      }
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
     }
   };
 
@@ -39,27 +70,43 @@ const Login = () => {
     <div className="login">
       <h2>Login</h2>
       <p>Tell me <span>everything</span></p>
-      {/* {error && <p>{error}</p>} */}
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="login_email">Email</label>
-        <input
-          type="email"
-          id="login_email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label htmlFor="login_password">Password</label>
-        <input
-          type="password"
-          id="login_password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">LOG IN</button>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ touched, errors, isSubmitting }) => (
+          <Form noValidate>
 
-        <p>Don't have an account? <Link to="/register">Register</Link></p>
-      </form>
+            <div className="form-group">
+              <label htmlFor="login_email">Email</label>
+              <Field
+                type="email"
+                id="login_email"
+                name="email"
+                placeholder="johndoe@example.com"
+                className={touched.email && errors.email ? "field_error" : null}
+              />
+              <ErrorMessage name="email" component="div" className="feedback_error" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="login_password">Password</label>
+              <Field
+                type="password"
+                id="login_password"
+                name="password"
+                className={touched.password && errors.password ? "field_error" : null}
+              />
+              <ErrorMessage name="password" component="div" className="feedback_error" />
+            </div>
+
+            <button type="submit" disabled={isSubmitting}>LOG IN</button>
+            <p>Don't have an account? <Link to="/register">Register</Link></p>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
