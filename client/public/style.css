@@ -1,0 +1,13 @@
+form {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.field_error {
+  border: 2px solid #f00;
+}
+
+.feedback_error {
+  color: red;
+}

@@ -3,7 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 
+      html-webpack-plugin injects a relative path to the bundle.js file,
+      and this breaks when requesting /nested/ routes in react-router.
+      Adding <base href="/"> ensures the bundle.js file is searched relative to "/",
+      i.e, '/bundle.js'
+    -->
+    <base href="/">
     <title>Blogged Down</title>
+    <script src="https://kit.fontawesome.com/fee433bc58.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <noscript>

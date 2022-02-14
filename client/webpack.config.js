@@ -7,6 +7,7 @@ module.exports = {
   entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
+    // publicPath: '/',
     filename: 'bundle.js',
     clean: true,
   },
@@ -38,12 +39,12 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/api': 'http://localhost:3000/',
     },
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: '/public/index.html',
+      template: './public/index.html',
       // favicon: './public/favicon.ico',
     }),
     new MiniCssExtractPlugin({
