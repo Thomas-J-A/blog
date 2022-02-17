@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useAuth } from '../context/auth';
 
@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 
 const Login = () => {
   const navigate = useNavigate();
+  // const { state: { from = '/' } } = useLocation();
+  const location = useLocation();
   const { setCurrentUser } = useAuth();
 
   const initialValues = {
@@ -44,8 +46,14 @@ const Login = () => {
 
       if (response.status === 200) {
         // Form submission successful on server
+        // Persist currentUser state over refreshes
+        localStorage.setItem('currentUser', JSON.stringify(body));
+
         setCurrentUser(body);
-        return navigate('/');
+
+        // Redirect to referrer, or homepage
+        const from = (location.state) ? location.state.from : '/';
+        return navigate(from, { replace: true }); // 'state' = null (not added) by default, so this removes any reference to a referrer that may exist
       }
 
       if (response.status === 401) {

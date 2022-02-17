@@ -18,8 +18,14 @@ const Header = () => {
         },
       });
 
-      setCurrentUser(null);
+      localStorage.removeItem('currentUser');
+
+      // navigate must come before setCurrentUser here
+      // otherwise setCurrentUser will trigger a re-render, and
+      // /create-post - and, by extension, PrivateRoute component - will run
+      // if user currently on that page
       navigate('/login');
+      setCurrentUser(null);
     } catch (err) {
       console.log(err);
     }
