@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { useAuth } from '../context/auth';
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
-  const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useAuth();
+  const { authState, logOut, isAuthenticated, isAdmin } = useAuth();
 
-  const logOut = async () => {
+  const handleLogOut = async () => {
     try {
       await fetch('http://localhost:3000/api/auth/logout', {
         method: 'POST',
@@ -18,14 +17,7 @@ const Header = () => {
         },
       });
 
-      localStorage.removeItem('currentUser');
-
-      // navigate must come before setCurrentUser here
-      // otherwise setCurrentUser will trigger a re-render, and
-      // /create-post - and, by extension, PrivateRoute component - will run
-      // if user currently on that page
-      navigate('/login');
-      setCurrentUser(null);
+      logOut();
     } catch (err) {
       console.log(err);
     }
@@ -36,17 +28,17 @@ const Header = () => {
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
-          {currentUser && currentUser.role === 'admin' && 
+          {isAuthenticated() && isAdmin() && 
             <li><Link to="/create-post">Create Post</Link></li>
           }
-          {currentUser ? ( 
+          {isAuthenticated() ? ( 
             <>
               <li>
                 <i className="fas fa-user-alt" />
-                <p>Logged in as: <span>{currentUser.firstName}</span></p>
+                <p>Hello, <span>{authState.currentUser.firstName}</span></p>
               </li>
               <li>  
-                <button type="button" onClick={logOut}>LOGOUT</button>
+                <button type="button" onClick={handleLogOut}>LOGOUT</button>
               </li>
             </>
           ) : ( 

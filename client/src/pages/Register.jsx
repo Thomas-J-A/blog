@@ -1,15 +1,13 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { useAuth } from '../context/auth';
+import { useAuth } from '../context/AuthContext';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const Register = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { setCurrentUser } = useAuth();
+  const { logIn } = useAuth();
 
   const initialValues = {
     firstName: '',
@@ -59,14 +57,7 @@ const Register = () => {
 
       if (response.status === 201) {
         // Form submission successful on server
-        // Persist currentUser state over refreshes
-        localStorage.setItem('currentUser', JSON.stringify(body));
-
-        setCurrentUser(body);
-
-        // Redirect to referrer, or homepage
-        const from = (location.state) ? location.state.from : '/';
-        return navigate(from, { replace: true });
+        return logIn(body);
       }
 
       if (response.status === 409) {

@@ -1,16 +1,15 @@
-import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { useAuth } from '../context/auth';
+import { useAuth } from '../context/AuthContext';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const Login = () => {
-  const navigate = useNavigate();
-  // const { state: { from = '/' } } = useLocation();
-  const location = useLocation();
-  const { setCurrentUser } = useAuth();
+  // const [error, setError] = useState(null);
+
+  const { logIn } = useAuth();
 
   const initialValues = {
     email: '',
@@ -46,14 +45,7 @@ const Login = () => {
 
       if (response.status === 200) {
         // Form submission successful on server
-        // Persist currentUser state over refreshes
-        localStorage.setItem('currentUser', JSON.stringify(body));
-
-        setCurrentUser(body);
-
-        // Redirect to referrer, or homepage
-        const from = (location.state) ? location.state.from : '/';
-        return navigate(from, { replace: true }); // 'state' = null (not added) by default, so this removes any reference to a referrer that may exist
+        return logIn(body);
       }
 
       if (response.status === 401) {
@@ -70,9 +62,18 @@ const Login = () => {
         throw new Error(body.message);
       }
     } catch (err) {
+      // setError(err);
       console.log(err.message);
     }
   };
+
+  // if (error) {
+  //   return (
+  //     <div className="error">
+  //       <p>Oops, something went wrong...</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="login">
@@ -120,3 +121,85 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
+
+
+// import React from 'react';
+// import { Formik, Field, Form, ErrorMessage } from 'formik';
+// import * as Yup from 'yup';
+
+// import { authenticationService } from '@/_services';
+
+// class LoginPage extends React.Component {
+//     constructor(props) {
+//         super(props);
+
+//         // redirect to home if already logged in
+//         if (authenticationService.currentUserValue) { 
+//             this.props.history.push('/');
+//         }
+//     }
+
+//     render() {
+//         return (
+//             <div>
+//                 <div className="alert alert-info">
+//                     Username: test<br />
+//                     Password: test
+//                 </div>
+//                 <h2>Login</h2>
+//                 <Formik
+//                     initialValues={{
+//                         username: '',
+//                         password: ''
+//                     }}
+//                     validationSchema={Yup.object().shape({
+//                         username: Yup.string().required('Username is required'),
+//                         password: Yup.string().required('Password is required')
+//                     })}
+//                     onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
+//                         setStatus();
+//                         authenticationService.login(username, password)
+//                             .then(
+//                                 user => {
+//                                     const { from } = this.props.location.state || { from: { pathname: "/" } };
+//                                     this.props.history.push(from);
+//                                 },
+//                                 error => {
+//                                     setSubmitting(false);
+//                                     setStatus(error);
+//                                 }
+//                             );
+//                     }}
+//                     render={({ errors, status, touched, isSubmitting }) => (
+//                         <Form>
+//                             <div className="form-group">
+//                                 <label htmlFor="username">Username</label>
+//                                 <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
+//                                 <ErrorMessage name="username" component="div" className="invalid-feedback" />
+//                             </div>
+//                             <div className="form-group">
+//                                 <label htmlFor="password">Password</label>
+//                                 <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+//                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
+//                             </div>
+//                             <div className="form-group">
+//                                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
+//                                 {isSubmitting &&
+//                                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+//                                 }
+//                             </div>
+//                             {status &&
+//                                 <div className={'alert alert-danger'}>{status}</div>
+//                             }
+//                         </Form>
+//                     )}
+//                 />
+//             </div>
+//         )
+//     }
+// }
+
+// export { LoginPage };

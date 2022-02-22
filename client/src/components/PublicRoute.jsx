@@ -1,15 +1,20 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
-import { useAuth } from '../context/auth';
+import { useAuth } from '../context/AuthContext';
 
 const PublicRoute = ({ children }) => {
-  const location = useLocation();
-  const { currentUser } = useAuth();
+  const { isAuthenticated, isLoggingIn } = useAuth();
 
-  // if location.state exists, redirect via
-  // navigate call in /login instead (skip this condition)
-  if (currentUser && !location.state) {
+  // Ignore this route guard when logging in since it only runs as
+  // a result of updating state (authState, triggers a re-render),
+  // and is not a deliberate attempt to access a public route
+  if (isLoggingIn) {
+    return children; // or null, or <Loading />
+  }
+
+  if (isAuthenticated()) {
+    // User already logged in, redirect to homepage
     return <Navigate to='/' replace />;
   }
 

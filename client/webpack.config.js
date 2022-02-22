@@ -51,5 +51,5 @@ module.exports = {
       filename: 'style.css',
     }),
   ],
-  // devtool: 'eval-cheap-source-map',
+  devtool: 'eval-cheap-source-map',
 };

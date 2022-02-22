@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
 const bcrypt = require('bcryptjs');
 
 // Creates a JWT token
@@ -27,6 +28,10 @@ exports.register = async (req, res, next) => {
 
     const token = generateToken(user);
 
+    // Get reference to token.exp value
+    const decodedToken = jwtDecode(token);
+    const expiresAt = decodedToken.exp;
+
     res.cookie('jwt', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 15, // 15 minutes
@@ -34,7 +39,10 @@ exports.register = async (req, res, next) => {
 
     // Remove password field from user data before returning it
     const { password, ...rest } = user._doc;
-    return res.status(201).json(rest);
+    return res.status(201).json({
+      currentUser: rest,
+      expiresAt,
+    });
   } catch (err) {
     // Pass any internal errors not explicitly handled
     // to express error-handling middleware (network, db errors)
@@ -56,6 +64,10 @@ exports.login = async (req, res, next) => {
 
     const token = generateToken(user);
 
+    // Get reference to token.exp value
+    const decodedToken = jwtDecode(token);
+    const expiresAt = decodedToken.exp;
+
     res.cookie('jwt', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 15, // 15 minutes
@@ -63,7 +75,10 @@ exports.login = async (req, res, next) => {
 
     // Remove password field from user data before returning it
     const { password, ...rest } = user._doc;
-    return res.status(200).json(rest);
+    return res.status(200).json({
+      currentUser: rest,
+      expiresAt,
+    });
   } catch (err) {
     // Pass any internal errors not explicitly handled
     // to express error-handling middleware (network, db errors)
