@@ -15,7 +15,7 @@ const CreatePost = () => {
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
-      .max(20, 'Title must be less than 20 characters')
+      .max(40, 'Title must be less than 40 characters')
       .required('Required'),
     content: Yup.string()
       .required('Required'),

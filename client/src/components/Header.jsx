@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+
 const Header = () => {
   const { authState, logOut, isAuthenticated, isAdmin } = useAuth();
 
@@ -34,7 +37,7 @@ const Header = () => {
           {isAuthenticated() ? ( 
             <>
               <li>
-                <i className="fas fa-user-alt" />
+                <FontAwesomeIcon icon={faUser} />
                 <p>Hello, <span>{authState.currentUser.firstName}</span></p>
               </li>
               <li>  

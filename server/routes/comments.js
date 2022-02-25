@@ -5,6 +5,9 @@ const checkIsAdmin = require('../middleware/checkIsAdmin');
 
 const router = express.Router();
 
+// All access
+router.get('/', commentsController.readComments);
+
 // Logged-in user access (authentication middleware)
 router.post('/', passport.authenticate('jwt', { session: false }), commentsController.createComment);
 

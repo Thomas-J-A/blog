@@ -11,3 +11,7 @@ form {
 .feedback_error {
   color: red;
 }
+
+.post {
+  border: 2px solid #000;
+}

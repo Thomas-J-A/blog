@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
 
   const isAuthenticated = () => !!authState.currentUser;
 
-  const isAdmin = () => authState.currentUser.role === 'admin';
+  const isAdmin = () => authState.currentUser.role === 'admin'; // authState.currentUser?.role === 'admin' || false;
 
   return (
     <AuthContext.Provider 

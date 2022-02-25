@@ -1,3 +1,13 @@
+exports.readComments = async (req, res, next) => {
+  try {
+    const comments = await req.models.Comment.find().exec();
+
+    return res.status(200).json(comments);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createComment = async (req, res, next) => {
   try {
     // create, save, return 
