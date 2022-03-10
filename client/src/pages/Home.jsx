@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitterSquare, faFacebookSquare, faGithubSquare, faPinterestSquare } from '@fortawesome/free-brands-svg-icons';
 
+import { format } from 'date-fns';
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
@@ -92,7 +94,7 @@ const Home = () => {
                   <p>{post.isPublished ? 'Published' : 'Unpublished'}</p>
                 }
                 <p>{post.content}</p>
-                <p>{post.createdAt}</p>
+                <p>{format(new Date(post.createdAt), 'MMM dd, yyyy')}</p>
                 <p>Comments: {countComments(post._id)}</p>
               </div>
             </Link>

@@ -9,6 +9,8 @@ import CommentForm from '../components/CommentForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faPenToSquare, faTrashCan, faXmarkCircle } from '@fortawesome/free-regular-svg-icons';
 
+import { format, formatDistance } from 'date-fns';
+
 const PostDetail = () => {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
@@ -138,7 +140,7 @@ const PostDetail = () => {
                 <FontAwesomeIcon icon={faTrashCan} onClick={() => removePost()} />
               </>
             }
-            <p>{post.createdAt}</p>
+            <p>{`Posted on ${format(new Date(post.createdAt), 'MMM dd, yyyy')}`}</p>
             {isAuthenticated() && isAdmin() &&
               <p>{post.isPublished ? 'Published' : 'Unpublished'}</p>
             }
@@ -158,7 +160,7 @@ const PostDetail = () => {
           comments.map((comment) => (
             <div className="post-detail_comment" key={comment._id}>
               <p>{`${comment.author.firstName} ${comment.author.lastName}`}</p>
-              <p>{comment.createdAt}</p>
+              <p>{formatDistance(new Date(comment.createdAt), new Date(), { addSuffix: true })}</p>
               <p>{comment.content}</p>
               {isAuthenticated() && isAdmin() && <FontAwesomeIcon icon={faXmarkCircle} onClick={() => removeComment(comment._id, id)} />}
             </div>
