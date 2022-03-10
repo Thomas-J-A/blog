@@ -15,3 +15,23 @@ form {
 .post {
   border: 2px solid #000;
 }
+
+.post-detail_post img {
+  height: 200px;
+}
+
+#post-detail_form_image {
+  display: none;
+}
+
+.post-detail_comment {
+  border: 2px solid #000;
+}
+
+#create-post_image {
+  display: none;
+}
+
+#create-post_thumbnail {
+  height: 60px;
+}

@@ -1,5 +1,5 @@
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -64,7 +64,7 @@ app.use(cors({
   origin: 'http://localhost:8080',  // React client
   credentials: true ,  // Allows cookies to be sent
 }));
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public'))); // Serve static assets from './public' directory w/ '/public' virtual path
 app.use(express.json());
 app.use(cookieParser());  // Parses Cookie headers and populates req.cookies (req.cookies.<cookieName>)
 app.use(passport.initialize());

@@ -37,9 +37,9 @@ const Home = () => {
           // All GET requests successful
           const bodies = await Promise.all(responses.map((r) => r.json()));
 
-          setIsLoading(false);
           setPosts(bodies[0]);
           setComments(bodies[1]);
+          setIsLoading(false);
         } else {
           // One or both requests encountered an error on server
           const resWithError = responses.find((r) => r.status === 500);
@@ -47,7 +47,6 @@ const Home = () => {
 
           throw new Error(body.message);
         }
-  
       } catch (err) {
         console.log(err.message);
       }
@@ -99,7 +98,7 @@ const Home = () => {
             </Link>
           ))
         ) : (
-          <p>There are no posts to display</p>
+          <p>There are no posts to display.</p>
         )}
       </div>
       <div className="sidebar">
