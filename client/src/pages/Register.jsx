@@ -6,6 +6,10 @@ import { useAuth } from '../context/AuthContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+
 const Register = () => {
   const { logIn } = useAuth();
 
@@ -75,85 +79,105 @@ const Register = () => {
   };
 
   return (
-    <div className="register">
-      <h2>Register</h2>
-      <p>Fill in this form or else</p>
+    <main className="register">
+      <div id="register_wrapper">
+        <div id="register_header">
+          <h2>Register</h2>
+          <p>Fill in this form or else</p>
+        </div>
 
-      <Formik 
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-        // validateOnChange={false} // Disable validation on every keystroke
-        // validateOnBlur={false} // Disable validation on every blur event
-      >
-        {({ touched, errors, isSubmitting }) => (
-          <Form noValidate>
+        <Formik 
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+          // validateOnChange={false} // Disable validation on every keystroke
+          // validateOnBlur={false} // Disable validation on every blur event
+        >
+          {({ touched, errors, isSubmitting }) => (
+            <Form autocomplete="off" noValidate>
 
-            <div className="form-group">
-              <label htmlFor="register_firstname">First Name</label>
-              <Field
-                type="text"
-                id="register_firstname"
-                name="firstName"
-                placeholder="John"
-                className={touched.firstName && errors.firstName ? "field_error" : null}
-              />
-              <ErrorMessage name="firstName" component="div" className="feedback_error" />
-            </div>
+              <div id="register-form_fields">
+                <div id="register-form_left">
+                  <div className="form-group">
+                    <label htmlFor="register_firstname">First Name</label>
+                    <div className={`input-with-icon ${touched.firstName && errors.firstName ? "field_error" : null}`}>
+                      <FontAwesomeIcon icon={faUser} />
+                      <Field
+                        type="text"
+                        id="register_firstname"
+                        name="firstName"
+                        placeholder="John"
+                      />
+                    </div>
+                    <ErrorMessage name="firstName" component="div" className="feedback_error" />
+                  </div>
 
-            <div className="form-group">
-              <label htmlFor="register_lastname">Last Name</label>
-              <Field
-                type="text"
-                id="register_lastname"
-                name="lastName"
-                placeholder="Doe"
-                className={touched.lastName && errors.lastName ? "field_error" : null}
-              />
-              <ErrorMessage name="lastName" component="div" className="feedback_error" />
-            </div>
+                  <div className="form-group">
+                    <label htmlFor="register_lastname">Last Name</label>
+                    <div className={`input-with-icon ${touched.lastName && errors.lastName ? "field_error" : null}`}>
+                      <FontAwesomeIcon icon={faUser} />
+                      <Field
+                        type="text"
+                        id="register_lastname"
+                        name="lastName"
+                        placeholder="Doe"
+                      />
+                    </div>
+                    <ErrorMessage name="lastName" component="div" className="feedback_error" />
+                  </div>
 
-            <div className="form-group">
-              <label htmlFor="register_email">Email</label>
-              <Field
-                type="email"
-                id="register_email"
-                name="email"
-                placeholder="johndoe@example.com"
-                className={touched.email && errors.email ? "field_error" : null}
-              />
-              <ErrorMessage name="email" component="div" className="feedback_error" />
-            </div>
+                  <div className="form-group">
+                    <label htmlFor="register_email">Email</label>
+                    <div className={`input-with-icon ${touched.email && errors.email ? "field_error" : null}`}>
+                      <FontAwesomeIcon icon={faEnvelope} />
+                      <Field
+                        type="email"
+                        id="register_email"
+                        name="email"
+                        placeholder="johndoe@example.com"
+                      />
+                    </div>
+                    <ErrorMessage name="email" component="div" className="feedback_error" />
+                  </div>
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="register_password">Password</label>
-              <Field
-                type="password"
-                id="register_password"
-                name="password"
-                className={touched.password && errors.password ? "field_error" : null}
-              />
-              <ErrorMessage name="password" component="div" className="feedback_error" />
-            </div>
+                <div id="register-form_right">
+                  <div className="form-group">
+                    <label htmlFor="register_password">Password</label>
+                    <div className={`input-with-icon ${touched.password && errors.password ? "field_error" : null}`}>
+                      <FontAwesomeIcon icon={faLock} />
+                      <Field
+                        type="password"
+                        id="register_password"
+                        name="password"
+                      />
+                    </div>
+                    <ErrorMessage name="password" component="div" className="feedback_error" />
+                  </div>
 
-            <div className="form-group">
-              <label htmlFor="register_password-confirmation">Confirm Password</label>
-              <Field
-                type="password"
-                id="register_password-confirmation"
-                name="passwordConfirmation"
-                className={touched.passwordConfirmation && errors.passwordConfirmation ? "field_error" : null}
-              />
-              <ErrorMessage name="passwordConfirmation" component="div" className="feedback_error" />
-            </div>
+                  <div className="form-group">
+                    <label htmlFor="register_password-confirmation">Confirm Password</label>
+                    <div className={`input-with-icon ${touched.passwordConfirmation && errors.passwordConfirmation ? "field_error" : null}`}>
+                      <FontAwesomeIcon icon={faLock} />
+                      <Field
+                        type="password"
+                        id="register_password-confirmation"
+                        name="passwordConfirmation"
+                      />
+                    </div>
+                    <ErrorMessage name="passwordConfirmation" component="div" className="feedback_error" />
+                  </div>
+                </div>
+              </div>
 
-            {/* <button type="submit" disabled={!(dirty && isValid) || isSubmitting}>REGISTER</button> */}
-            <button type="submit" disabled={isSubmitting}>REGISTER</button>
-            <p>Already have an account? <Link to="/login">Log in</Link></p>
-          </Form>
-        )}
-      </Formik>
-    </div>
+              {/* <button type="submit" disabled={!(dirty && isValid) || isSubmitting}>REGISTER</button> */}
+              <button type="submit" disabled={isSubmitting}>REGISTER</button>
+              <p className="form-msg">Already have an account? <Link to="/login">Log In</Link></p>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </main>
   );
 };
 

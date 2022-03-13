@@ -83,7 +83,7 @@ const Home = () => {
   }
 
   return (
-    <div className="home">
+    <main className="home">
       <div className="posts">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
@@ -117,7 +117,7 @@ const Home = () => {
           <FontAwesomeIcon icon={faPinterestSquare} />
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

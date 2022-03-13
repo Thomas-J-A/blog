@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 
+import { format } from 'date-fns';
+
 const UpdatePostForm = ({ post, setPost, setIsEditMode }) => {
   const [imageURL, setImageURL] = useState(null);
   const fileInputRef = useRef();
@@ -68,7 +70,7 @@ const UpdatePostForm = ({ post, setPost, setIsEditMode }) => {
       const response = await fetch(`http://localhost:3000/${post.imageURL}`);
       const body = await response.blob();
 
-      // (re)set Formik's values.image to returned blob (OR File created from blob)
+      // (re)set Formik's values.image to returned blob
       setInitialValues((prevValue) => ({...prevValue, image: body}));
       
       // Generates a temporary URL of the blob to use as img src
@@ -93,7 +95,7 @@ const UpdatePostForm = ({ post, setPost, setIsEditMode }) => {
       enableReinitialize={true} // After initialValues is updated in state, reset form to new initialValues (with image: <blob>)
     >
       {({ values, touched, errors, setFieldValue, setFieldTouched, isSubmitting }) => (
-        <Form noValidate>
+        <Form autocomplete="off" noValidate>
 
           <div className="form-group">
             {/* Label must be visibly hidden, so use aria-label attribute instead of <label> element*/}
@@ -109,7 +111,7 @@ const UpdatePostForm = ({ post, setPost, setIsEditMode }) => {
             <ErrorMessage name="title" component="div" className="feedback_error" />
           </div>
 
-          <p>{post.createdAt}</p>
+          <p>{`Posted on ${format(new Date(post.createdAt), 'MMM dd, yyyy')}`}</p>
 
           <div className="form-group">
             <label htmlFor="post-detail_form_is-published">

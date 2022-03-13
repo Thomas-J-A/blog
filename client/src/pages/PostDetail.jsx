@@ -126,7 +126,7 @@ const PostDetail = () => {
   }
 
   return (
-    <div className="post-detail">
+    <main className="post-detail">
       <Link to="/"><FontAwesomeIcon icon={faCircleLeft} />All Posts</Link>
       <div className="post-detail_post">
         {isEditMode ? (
@@ -169,7 +169,7 @@ const PostDetail = () => {
           <p>Be the first to comment.</p>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

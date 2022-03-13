@@ -6,6 +6,10 @@ import { useAuth } from '../context/AuthContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+
 const Login = () => {
   // const [error, setError] = useState(null);
 
@@ -76,130 +80,56 @@ const Login = () => {
   // }
 
   return (
-    <div className="login">
-      <h2>Login</h2>
-      <p>Tell me <span>everything</span></p>
+    <main className="login">
+      <div id="login_wrapper">
+        <div id="login_header">
+          <h2>Log In</h2>
+          <p>Tell me <span>everything</span></p>
+        </div>
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ touched, errors, isSubmitting }) => (
-          <Form noValidate>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ touched, errors, isSubmitting }) => (
+            <Form autocomplete="off" noValidate>
 
-            <div className="form-group">
-              <label htmlFor="login_email">Email</label>
-              <Field
-                type="email"
-                id="login_email"
-                name="email"
-                placeholder="johndoe@example.com"
-                className={touched.email && errors.email ? "field_error" : null}
-              />
-              <ErrorMessage name="email" component="div" className="feedback_error" />
-            </div>
+              <div className="form-group">
+                <label htmlFor="login_email">Email</label>
+                <div className={`input-with-icon ${touched.email && errors.email ? "field_error" : null}`}>
+                  <FontAwesomeIcon icon={faEnvelope} />
+                  <Field
+                    type="email"
+                    id="login_email"
+                    name="email"
+                    placeholder="johndoe@example.com"
+                  />
+                </div>
+                <ErrorMessage name="email" component="div" className="feedback_error" />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="login_password">Password</label>
-              <Field
-                type="password"
-                id="login_password"
-                name="password"
-                className={touched.password && errors.password ? "field_error" : null}
-              />
-              <ErrorMessage name="password" component="div" className="feedback_error" />
-            </div>
+              <div className="form-group">
+                <label htmlFor="login_password">Password</label>
+                <div className={`input-with-icon ${touched.password && errors.password ? "field_error" : null}`}>
+                  <FontAwesomeIcon icon={faLock} />
+                  <Field
+                    type="password"
+                    id="login_password"
+                    name="password"
+                  />
+                </div>
+                <ErrorMessage name="password" component="div" className="feedback_error" />
+              </div>
 
-            <button type="submit" disabled={isSubmitting}>LOG IN</button>
-            <p>Don't have an account? <Link to="/register">Register</Link></p>
-          </Form>
-        )}
-      </Formik>
-    </div>
+              <button type="submit" disabled={isSubmitting}>LOG IN</button>
+              <p className="form-msg">Don't have an account? <Link to="/register">Register</Link></p>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </main>
   );
 };
 
 export default Login;
-
-
-
-
-
-// import React from 'react';
-// import { Formik, Field, Form, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
-
-// import { authenticationService } from '@/_services';
-
-// class LoginPage extends React.Component {
-//     constructor(props) {
-//         super(props);
-
-//         // redirect to home if already logged in
-//         if (authenticationService.currentUserValue) { 
-//             this.props.history.push('/');
-//         }
-//     }
-
-//     render() {
-//         return (
-//             <div>
-//                 <div className="alert alert-info">
-//                     Username: test<br />
-//                     Password: test
-//                 </div>
-//                 <h2>Login</h2>
-//                 <Formik
-//                     initialValues={{
-//                         username: '',
-//                         password: ''
-//                     }}
-//                     validationSchema={Yup.object().shape({
-//                         username: Yup.string().required('Username is required'),
-//                         password: Yup.string().required('Password is required')
-//                     })}
-//                     onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
-//                         setStatus();
-//                         authenticationService.login(username, password)
-//                             .then(
-//                                 user => {
-//                                     const { from } = this.props.location.state || { from: { pathname: "/" } };
-//                                     this.props.history.push(from);
-//                                 },
-//                                 error => {
-//                                     setSubmitting(false);
-//                                     setStatus(error);
-//                                 }
-//                             );
-//                     }}
-//                     render={({ errors, status, touched, isSubmitting }) => (
-//                         <Form>
-//                             <div className="form-group">
-//                                 <label htmlFor="username">Username</label>
-//                                 <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
-//                                 <ErrorMessage name="username" component="div" className="invalid-feedback" />
-//                             </div>
-//                             <div className="form-group">
-//                                 <label htmlFor="password">Password</label>
-//                                 <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-//                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
-//                             </div>
-//                             <div className="form-group">
-//                                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
-//                                 {isSubmitting &&
-//                                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-//                                 }
-//                             </div>
-//                             {status &&
-//                                 <div className={'alert alert-danger'}>{status}</div>
-//                             }
-//                         </Form>
-//                     )}
-//                 />
-//             </div>
-//         )
-//     }
-// }
-
-// export { LoginPage };

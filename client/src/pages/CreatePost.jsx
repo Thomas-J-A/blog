@@ -79,7 +79,7 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="create-post">
+    <main className="create-post">
       <h2>Create Post</h2>
       <p>Definitely do not plagiarize</p>
 
@@ -89,7 +89,7 @@ const CreatePost = () => {
         onSubmit={handleSubmit}
       >
         {({ touched, errors, setFieldValue, setFieldTouched, isSubmitting }) => (
-          <Form noValidate>
+          <Form autocomplete="off" noValidate>
 
             <div className="form-group">
               <label htmlFor="create-post_title">Title</label>
@@ -152,7 +152,7 @@ const CreatePost = () => {
           </Form>
         )}
       </Formik>
-    </div>
+    </main>
   );
 };
 

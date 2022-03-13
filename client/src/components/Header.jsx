@@ -28,32 +28,34 @@ const Header = () => {
 
   return (
     <header>
-      <nav>
+      <nav className="main-nav">
         <ul>
           <li><Link to="/">Home</Link></li>
           {isAuthenticated() && isAdmin() && 
-            <li><Link to="/create-post">Create Post</Link></li>
+            <li id="main-nav_create-post"><Link to="/create-post">Create Post</Link></li>
           }
           {isAuthenticated() ? ( 
             <>
-              <li>
+              <li className="push-right" id="main-nav_greeting">
                 <FontAwesomeIcon icon={faUser} />
-                <p>Hello, <span>{authState.currentUser.firstName}</span></p>
+                <p>Hello, {authState.currentUser.firstName}</p>
               </li>
               <li>  
-                <button type="button" onClick={handleLogOut}>LOGOUT</button>
+                <button type="button" onClick={handleLogOut} id="main-nav_logout">LOGOUT</button>
               </li>
             </>
           ) : ( 
             <>
-              <li><Link to="/register">Register</Link></li>
-              <li><Link to="/login">Login</Link></li>
+              <li className="push-right"><Link to="/register">Register</Link></li>
+              <li id="main-nav_login"><Link to="/login">Login</Link></li>
             </>
           )}
         </ul>
       </nav>
-      <h1>Blogged Down</h1>
-      <p>blah blah blah</p>
+      <div id="main-title">
+        <h1>Blogged Down</h1>
+        <p>blah blah blah</p>
+      </div>
     </header>
   );
 };
