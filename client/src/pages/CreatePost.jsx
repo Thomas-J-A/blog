@@ -89,7 +89,7 @@ const CreatePost = () => {
         onSubmit={handleSubmit}
       >
         {({ touched, errors, setFieldValue, setFieldTouched, isSubmitting }) => (
-          <Form autocomplete="off" noValidate>
+          <Form autoComplete="off" noValidate>
 
             <div className="form-group">
               <label htmlFor="create-post_title">Title</label>

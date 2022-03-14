@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitterSquare, faFacebookSquare, faGithubSquare, faPinterestSquare } from '@fortawesome/free-brands-svg-icons';
+import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 import { format } from 'date-fns';
 
@@ -84,25 +85,34 @@ const Home = () => {
 
   return (
     <main className="home">
-      <div className="posts">
-        {filteredPosts.length > 0 ? (
-          filteredPosts.map((post) => (
-            <Link to={`/posts/${post._id}`} key={post._id}>
-              <div className="post">
-                <p>{post.title}</p>
-                {isAuthenticated() && isAdmin() &&
-                  <p>{post.isPublished ? 'Published' : 'Unpublished'}</p>
-                }
-                <p>{post.content}</p>
-                <p>{format(new Date(post.createdAt), 'MMM dd, yyyy')}</p>
-                <p>Comments: {countComments(post._id)}</p>
+      <div className="posts_wrapper">
+        <div className="posts">
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
+              <div className="post" key={post._id}>
+                <img src={`http://localhost:3000/${post.imageURL}`} alt="" />
+                <div className="post_content">
+                  <p className="post_title">{post.title}</p>
+                  {isAuthenticated() && isAdmin() &&
+                    <p className="post_is-published">{post.isPublished ? 'Published' : 'Unpublished'}</p>
+                  }
+                  <div className="post_date-and-comments">
+                    <p>Posted on {format(new Date(post.createdAt), 'MMM dd, yyyy')}</p>
+                    <p>
+                      <FontAwesomeIcon icon={faComment} />
+                      {countComments(post._id)}
+                    </p>
+                  </div>
+                  <Link to={`/posts/${post._id}`} id="post_read-now">Read Now</Link>
+                </div>
               </div>
-            </Link>
-          ))
-        ) : (
-          <p>There are no posts to display.</p>
-        )}
+            ))
+          ) : (
+            <p>There are no posts to display.</p>
+          )}
+        </div>
       </div>
+
       <div className="sidebar">
         <p>About me</p>
         {/* image */}

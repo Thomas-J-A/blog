@@ -94,7 +94,7 @@ const Register = () => {
           // validateOnBlur={false} // Disable validation on every blur event
         >
           {({ touched, errors, isSubmitting }) => (
-            <Form autocomplete="off" noValidate>
+            <Form autoComplete="off" noValidate>
 
               <div id="register-form_fields">
                 <div id="register-form_left">
