@@ -55,6 +55,23 @@ table {
 
 /****** End CSS reset ********/
 
+/* =================
+      Variables
+==================*/
+
+:root {
+  --white: #fff;
+  --off-white: #f1f4f8;
+  --blue: #0277bd;
+  --red: #f00;
+  --black: #000;
+}
+
+
+/*==================
+      General
+==================*/
+
 
 /* For images to not be able to exceed their container */
 img {    
@@ -82,7 +99,7 @@ body {
 
 header,
 footer {
-  background-color: #0277bd;
+  background-color: var(--blue);
   color: #fff;
 }
 
@@ -98,59 +115,78 @@ header a {
 
 
 header {
+  border-bottom: 1px solid var(--black);
   padding: 1rem;
-  border-bottom: 1px solid #000;
 }
 
-header nav ul {
+.header_logo {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.header_logo p {
+  text-align: end;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.header_greeting {
+  display: none;
+}
+
+.main-nav {
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  gap: 1rem;
+  font-size: 1.2rem;
+}
+
+.main-nav li:hover {
+  opacity: .7;
+}
+
+.main-nav_logout {
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .push-right {
   margin-left: auto;
 }
 
-#main-nav_greeting {
-  display: flex;
-  align-items: baseline;
+@media screen and (min-width: 800px) {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header_logo {
+    margin-bottom: 0;
+    font-size: 2.5rem;
+  }
+
+  .header_logo p {
+    font-size: 1.5rem;
+  }
+
+  .main-nav,
+  .main-nav_logout {
+    font-size: 1.5rem;
+  }
 }
 
-#main-nav_greeting svg {
-  margin-right: .6rem;
-}
+@media screen and (min-width: 1050px) {
+  .header_greeting {
+    display: flex;
+    align-items: baseline;
+    font-size: 1.5rem;
+  }
 
-#main-nav_create-post,
-#main-nav_login,
-#main-nav_logout {
-  margin-left: 1rem;
-} 
-
-#main-nav_logout {
-  margin-left: 1.7rem;
-  padding: .3rem .8rem;
-  border: none;
-  border-radius: .3rem;
-  background-color: #fff;
-  font-size: .8rem;  
-  font-weight: 700;
-  color: #0277bd;
-}
-
-#main-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#main-title h1 {
-  margin-bottom: .5rem;
-  font-size: 3rem;
-}
-
-#main-title p {
-  font-size: 1.5rem;
+  .header_greeting svg {
+    margin-right: .5rem;
+  }
 }
 
 
@@ -163,7 +199,7 @@ footer {
   display: flex;
   justify-content: center;
   padding: 1rem;
-  border-top: 1px solid #000;
+  border-top: 1px solid var(--black);
 }
 
 
@@ -183,7 +219,7 @@ footer {
 #register_wrapper {
   /* min-width: 380px; */
   padding: 1.2rem;
-  border: 1px solid #000;
+  border: 1px solid var(--black);
   box-shadow: 2px 2px 10px rgba(0,0,0,.5);
   background-color: #fff;
 }
@@ -194,7 +230,7 @@ footer {
   flex-direction: column;
   align-items: center;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--black);
 }
 
 #login_header h2,
@@ -224,12 +260,13 @@ footer {
            Homepage
 ==============================*/
 
+
 /* Needed so that I can center the posts when max-width exceeded */
 .posts_wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f1f4f8;
+  background-color: var(--off-white);
 }
 
 .posts {
@@ -237,12 +274,12 @@ footer {
   gap: 1rem;
   max-width: 1200px;
   padding: 1rem 0;
-  color: #fff;
+  color: var(--white);
 }
 
 .post {
   box-shadow: 0 10px 10px rgba(0,0,0,.25);
-  background-color: #0277bd;
+  background-color: var(--blue);
 }
 
 .post_content {
@@ -273,15 +310,15 @@ footer {
   border-radius: .3rem;
   text-align: center;
   text-decoration: none;
-  background-color: #f1f4f8;
+  background-color: var(--off-white);
   font-size: 1.5rem;
-  color: #000;
+  color: var(--black);
 }
 
 #post_read-now:hover {
-  border: 1px solid #f1f4f8;
-  background-color: #0277bd;
-  color: #fff;
+  border: 1px solid var(--off-white);
+  background-color: var(--blue);
+  color: var(--white);
 }
 
 .post_date-and-comments {
@@ -296,8 +333,8 @@ footer {
 
 .sidebar {
   padding: 1rem;
-  border-top: 1px solid #000;
-  background-color: #fff;
+  border-top: 1px solid var(--black);
+  background-color: var(--white);
 }
 
 @media screen and (min-width: 550px) {
@@ -328,7 +365,7 @@ footer {
   .sidebar {
     flex: 1; /* 4:1 ratio between posts wrapper and sidebar */
     border-top: none;
-    border-left: 1px solid #000;
+    border-left: 1px solid var(--black);
   }
 }
 
@@ -347,7 +384,7 @@ footer {
 
 
 main {
-  background-color: #f1f4f8;
+  background-color: var(--off-white);
 }
 
 button[type="submit"] {
@@ -355,8 +392,8 @@ button[type="submit"] {
   padding: .7rem .8rem;
   border: none;
   border-radius: .3rem;
-  background-color: #0277bd;
-  color: #fff;
+  background-color: var(--blue);
+  color: var(--white);
   outline: none;
 }
 
@@ -377,13 +414,13 @@ input {
 .input-with-icon {
   display: flex;
   align-items: center;
-  border: 1px solid #000;
+  border: 1px solid var(--black);
 }
 
 .input-with-icon svg {
   padding: 1rem;
-  background-color: #0277bd;
-  color: #fff;
+  background-color: var(--blue);
+  color: var(--white);
 }
 
 .input-with-icon:focus-within {
@@ -410,12 +447,12 @@ label {
 }
 
 .field_error {
-  border: 2px solid #f00;
+  border: 2px solid var(--red);
 }
 
 .feedback_error {
   margin-top: .8rem;
-  color: red;
+  color: var(--red);
 }
 
 .post-detail_post img {
@@ -427,7 +464,7 @@ label {
 }
 
 .post-detail_comment {
-  border: 2px solid #000;
+  border: 2px solid var(--black);
 }
 
 #create-post_image {

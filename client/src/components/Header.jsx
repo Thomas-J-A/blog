@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { faBars, faX, faHouse, faPenClip, faRightFromBracket, faUserPlus, faRightToBracket, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const { authState, logOut, isAuthenticated, isAdmin } = useAuth();
@@ -28,34 +29,66 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="main-nav">
-        <ul>
-          <li><Link to="/">Home</Link></li>
+
+      <div className="header_logo">
+        <Link to="/">
+          <h1>Blogged Down</h1>
+          <p>...blah blah blah</p>
+        </Link>
+      </div>
+
+      {isAuthenticated() && (
+        <div className="header_greeting">
+          <FontAwesomeIcon icon={faUser} />
+          <p>Hello, {authState.currentUser.firstName}</p>
+        </div>
+      )}
+
+      <nav>
+        <ul className="main-nav">
+
+          <li>
+            <Link to="/">
+                {/* <FontAwesomeIcon icon={faHouse} /> */}
+                Home
+            </Link>
+          </li>
+
           {isAuthenticated() && isAdmin() && 
-            <li id="main-nav_create-post"><Link to="/create-post">Create Post</Link></li>
+            <li>
+              <Link to="/create-post">
+                {/* <FontAwesomeIcon icon={faPenClip} /> */}
+                Create Post
+              </Link>
+            </li>
           }
+
           {isAuthenticated() ? ( 
-            <>
-              <li className="push-right" id="main-nav_greeting">
-                <FontAwesomeIcon icon={faUser} />
-                <p>Hello, {authState.currentUser.firstName}</p>
-              </li>
-              <li>  
-                <button type="button" onClick={handleLogOut} id="main-nav_logout">LOGOUT</button>
-              </li>
-            </>
+            <li
+              onClick={handleLogOut}
+              className="main-nav_logout push-right"
+            >  
+              {/* <FontAwesomeIcon icon={faRightFromBracket} /> */}
+              Logout
+            </li>
           ) : ( 
             <>
-              <li className="push-right"><Link to="/register">Register</Link></li>
-              <li id="main-nav_login"><Link to="/login">Login</Link></li>
+              <li className="push-right">
+                <Link to="/register">
+                  {/* <FontAwesomeIcon icon={faUserPlus} /> */}
+                  Register
+                </Link>
+              </li>
+              <li>
+                <Link to="/login">
+                  {/* <FontAwesomeIcon icon={faRightToBracket} /> */}
+                  Login
+                </Link>
+              </li>
             </>
           )}
         </ul>
       </nav>
-      <div id="main-title">
-        <h1>Blogged Down</h1>
-        <p>blah blah blah</p>
-      </div>
     </header>
   );
 };
