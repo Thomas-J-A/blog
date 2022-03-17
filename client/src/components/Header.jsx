@@ -46,7 +46,6 @@ const Header = () => {
 
       <nav>
         <ul className="main-nav">
-
           <li>
             <Link to="/">
                 {/* <FontAwesomeIcon icon={faHouse} /> */}

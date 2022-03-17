@@ -9,6 +9,8 @@ import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 import { format } from 'date-fns';
 
+import profilePic from '../../public/images/profile.jpg';
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
@@ -114,17 +116,17 @@ const Home = () => {
       </div>
 
       <div className="sidebar">
-        <p>About me</p>
-        {/* image */}
+        <h3>About me</h3>
+        <img src={profilePic} alt="A trail through a forest, sun beaming through trees" />
         <p>
-          My name is Gideon. I am 12 years old and I blog about my life.
+        Lorem ipsum dolor sit amet. A quod praesentium eos dolor modi nam consequatur provident. Qui harum minus vel praesentium quis cum autem rerum id culpa consequuntur. 33 dolore facere ut blanditiis ullam ea maiores omnis id corrupti aspernatur. 
         </p>
-        <p>Talk to me</p>
+        <h3>Talk to me</h3>
         <div>
-          <FontAwesomeIcon icon={faTwitterSquare} />
-          <FontAwesomeIcon icon={faFacebookSquare} />
-          <FontAwesomeIcon icon={faGithubSquare} />
-          <FontAwesomeIcon icon={faPinterestSquare} />
+          <FontAwesomeIcon icon={faTwitterSquare} className="sidebar_social-icon" />
+          <FontAwesomeIcon icon={faFacebookSquare} className="sidebar_social-icon" />
+          <FontAwesomeIcon icon={faGithubSquare} className="sidebar_social-icon" />
+          <FontAwesomeIcon icon={faPinterestSquare} className="sidebar_social-icon" />
         </div>
       </div>
     </main>
