@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFeatherPointed, faHeading } from '@fortawesome/free-solid-svg-icons';
+
+import createPostImg from '../../public/images/create-post.png';
+
 const CreatePost = () => {
   const [thumbnailURL, setThumbnailURL] = useState(null);
   const fileInputRef = useRef();
@@ -80,78 +85,94 @@ const CreatePost = () => {
 
   return (
     <main className="create-post">
-      <h2>Create Post</h2>
-      <p>Definitely do not plagiarize</p>
+      <div id="create-post_wrapper">
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ touched, errors, setFieldValue, setFieldTouched, isSubmitting }) => (
-          <Form autoComplete="off" noValidate>
+        <img src={createPostImg} alt="" id="create-post_flower-img" />
 
-            <div className="form-group">
-              <label htmlFor="create-post_title">Title</label>
-              <Field
-                type="text"
-                id="create-post_title"
-                name="title"
-                placeholder="React is awesome"
-                className={touched.title && errors.title ? "field_error" : null}
-              />
-              <ErrorMessage name="title" component="div" className="feedback_error" />
+        <div id="create-post_form-wrapper">
+
+          <div id="create-post_header">
+            <div id="create-post_header_text">
+              <h2>Create Post</h2>
+              <p>Do <span>not</span> plagiarize</p>
             </div>
+            <FontAwesomeIcon icon={faFeatherPointed} alt="" />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="create-post_content">Content</label>
-              <Field
-                as="textarea"
-                id="create-post_content"
-                name="content"
-                placeholder="React is the best JavaScript framework..."
-                className={touched.content && errors.content ? "field_error" : null}
-              />
-              <ErrorMessage name="content" component="div" className="feedback_error" />
-            </div>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ touched, errors, setFieldValue, setFieldTouched, isSubmitting }) => (
+              <Form autoComplete="off" noValidate>
 
-            <div className="form-group">
-              <input
-                type="file"
-                id="create-post_image"
-                name="image"
-                aria-label="Image"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, setFieldValue)}
-                ref={fileInputRef}
-              />
-              <button type="button"
-                className={touched.image && errors.image ? "field_error" : null}
-                onClick={() => fileInputRef.current.click()} // Programmatically clicks input[type="file"] field
-                onBlur={() => setFieldTouched('image', true)} // sets touched.image to true, and triggers validation
-              >
-                Upload Image
-              </button>
-              {thumbnailURL && <img src={thumbnailURL} alt="" id="create-post_thumbnail" />}
-              <ErrorMessage name="image" component="div" className="feedback_error" />
-            </div>
+                <div className="form-group">
+                  <label htmlFor="create-post_title">Title</label>
+                  <div className={`input-with-icon ${touched.title && errors.title ? "field_error" : ""}`}>
+                    <FontAwesomeIcon icon={faHeading} />
+                    <Field
+                      type="text"
+                      id="create-post_title"
+                      name="title"
+                      placeholder="React is awesome"
+                    />
+                  </div>
+                  <ErrorMessage name="title" component="div" className="feedback_error" />
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="create-post_is-published">
-                <Field
-                  type="checkbox"
-                  id="create-post_is-published"
-                  name="isPublished"
-                />
-                Publish Now
-              </label>
-              {/* <ErrorMessage name="isPublished" component="div" className="feedback_error" /> */}
-            </div>
+                <div className="form-group">
+                  <label htmlFor="create-post_content">Content</label>
+                  <Field
+                    as="textarea"
+                    id="create-post_content"
+                    name="content"
+                    placeholder="React is the best JavaScript framework..."
+                    className={touched.content && errors.content ? "field_error" : null}
+                  />
+                  <ErrorMessage name="content" component="div" className="feedback_error" />
+                </div>
 
-            <button type="submit" disabled={isSubmitting}>POST</button>
-          </Form>
-        )}
-      </Formik>
+                <div className="form-group">
+                  <input
+                    type="file"
+                    id="create-post_image"
+                    name="image"
+                    aria-label="Image"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange(e, setFieldValue)}
+                    ref={fileInputRef}
+                  />
+                  <button type="button"
+                    id="create-post_upload-btn"
+                    className={touched.image && errors.image ? "field_error" : null}
+                    onClick={() => fileInputRef.current.click()} // Programmatically clicks input[type="file"] field
+                    onBlur={() => setFieldTouched('image', true)} // sets touched.image to true, and triggers validation
+                  >
+                    Upload Image
+                  </button>
+                  {thumbnailURL && <img src={thumbnailURL} alt="" id="create-post_thumbnail" />}
+                  <ErrorMessage name="image" component="div" className="feedback_error" />
+                </div>
+
+                <div className="form-group" id="create-post_is-published">
+                  <label>
+                    <Field
+                      type="checkbox"
+                      id="create-post_is-published"
+                      name="isPublished"
+                    />
+                    Publish Now
+                  </label>
+                  {/* <ErrorMessage name="isPublished" component="div" className="feedback_error" /> */}
+                </div>
+
+                <button type="submit" disabled={isSubmitting}>POST</button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
     </main>
   );
 };

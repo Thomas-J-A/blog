@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faLock } from '@fortawesome/free-solid-svg-icons';
 
 const Register = () => {
   const { logIn } = useAuth();
@@ -80,10 +80,14 @@ const Register = () => {
 
   return (
     <main className="register">
-      <div id="register_wrapper">
+      <div id="register_form-wrapper">
+        
         <div id="register_header">
-          <h2>Register</h2>
-          <p>Fill in this form or else</p>
+          <div id="register_header_text">
+            <h2>Register</h2>
+            <p>Fill in this form <span>or else</span></p>
+          </div>
+          <FontAwesomeIcon icon={faUserPlus} alt="" />
         </div>
 
         <Formik 

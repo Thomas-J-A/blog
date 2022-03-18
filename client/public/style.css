@@ -202,56 +202,128 @@ footer {
 }
 
 
-/*==============================
-         Login/Register
-==============================*/
+/*====================================
+      Login/Register/Create post
+====================================*/
 
 
 .login,
-.register {
+.register,
+.create-post {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2rem 0;
 }
 
-#login_wrapper,
-#register_wrapper {
-  /* min-width: 380px; */
-  padding: 1.2rem;
-  border: 1px solid var(--black);
-  box-shadow: 2px 2px 10px rgba(0,0,0,.5);
-  background-color: #fff;
+#login_flower-img,
+#create-post_flower-img {
+  display: none;
 }
 
 #login_header,
-#register_header {
+#register_header,
+#create-post_header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  padding-bottom: .5rem;
   border-bottom: 1px solid var(--black);
 }
 
+#login_header svg,
+#register_header svg,
+#create-post_header svg {
+  margin-right: 1rem;
+  font-size: 3rem;
+  color: var(--blue);
+}
+
 #login_header h2,
-#register_header h2 {
+#register_header h2,
+#create-post_header h2 {
   margin-bottom: .5rem;
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
 #login_header p,
-#register_header p {
-  margin-bottom: .5rem;
-  font-size: 1.4rem;
+#register_header p,
+#create-post_header p {
+  font-size: 1.2rem;
 }
 
-#login_header p span {
+#login_header p span,
+#register_header p span ,
+#create-post_header p span {
   font-style: italic;
 }
 
-#register-form_fields {
+#create-post_upload-btn {
+  width: 100%;
+  padding: .7rem .8rem;
+  border: 1px solid var(--black);
+  background-color: var(--white);
+  outline: none;
+}
+
+#create-post_thumbnail {
+  display: block;
+  height: 60px;
+  margin-top: 1.5rem;
+  border: 1px solid var(--black);
+  border-radius: 2px;
+}
+
+#create-post_is-published label {
   display: flex;
-  flex-direction: row;
-  gap: 1.2rem;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+#create-post_is-published input {
+  width: auto;
+  margin-right: .5rem
+}
+
+@media screen and (min-width: 500px) {
+  #login_wrapper,
+  #register_form-wrapper,
+  #create-post_wrapper {
+    padding: 2rem;
+    border: 1px solid var(--black);
+    border-radius: 5px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  #register-form_fields {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 1050px) {
+  #login_wrapper,
+  #create-post_wrapper {
+    display: flex;
+    gap: .5rem;
+  }
+
+  #login_flower-img,
+  #create-post_flower-img {
+    display: block;
+    align-self: center;
+    margin-right: 2rem;
+  }
+
+  #login_flower-img {
+    max-width: 300px;
+  }
+
+  #create-post_flower-img {
+    max-width: 350px;
+  }
 }
 
 
@@ -438,7 +510,8 @@ footer {
     width: 100%;
     max-width: 280px;
     margin-bottom: 1rem;
-    border: 5px inset var(--black);
+    border: 1px solid var(--black);
+    border-radius: 4px;
   }
 
   .sidebar p {
@@ -487,6 +560,14 @@ input {
   outline: none;
 }
 
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: .5rem .7rem;
+  border: 1px solid var(--black);
+  outline: none;
+}
+
 .input-with-icon {
   display: flex;
   align-items: center;
@@ -503,6 +584,7 @@ input {
   box-shadow: 1px 1px 5px rgba(0,0,0,.5);  
 }
 
+textarea:focus,
 button:focus {
   box-shadow: 1px 1px 5px rgba(0,0,0,.5);
 }
@@ -523,7 +605,7 @@ label {
 }
 
 .field_error {
-  border: 2px solid var(--red);
+  border: 2px solid var(--red) !important;
 }
 
 .feedback_error {
@@ -545,8 +627,4 @@ label {
 
 #create-post_image {
   display: none;
-}
-
-#create-post_thumbnail {
-  height: 60px;
 }
