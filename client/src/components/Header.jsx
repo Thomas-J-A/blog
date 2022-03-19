@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext';
@@ -8,6 +8,8 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { faBars, faX, faHouse, faPenClip, faRightFromBracket, faUserPlus, faRightToBracket, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const { authState, logOut, isAuthenticated, isAdmin } = useAuth();
 
   const handleLogOut = async () => {
@@ -27,27 +29,39 @@ const Header = () => {
     }
   };
 
+  const handleToggle = () => {
+    setIsOpen((prevValue) => !prevValue);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <header>
+      
+      <div className="header_mobile-wrapper">
+        <div className="header_logo">
+          <Link to="/" onClick={closeMenu}>
+            <h1>Blogged Down</h1>
+            <p>...blah blah blah</p>
+          </Link>
+        </div>
 
-      <div className="header_logo">
-        <Link to="/">
-          <h1>Blogged Down</h1>
-          <p>...blah blah blah</p>
-        </Link>
+        {isAuthenticated() && (
+          <div className="header_greeting">
+            <FontAwesomeIcon icon={faUser} />
+            <p>Hello, {authState.currentUser.firstName}</p>
+          </div>
+        )}
+
+        <FontAwesomeIcon icon={faBars} onClick={handleToggle} className="header_dropdown-icon" />
       </div>
 
-      {isAuthenticated() && (
-        <div className="header_greeting">
-          <FontAwesomeIcon icon={faUser} />
-          <p>Hello, {authState.currentUser.firstName}</p>
-        </div>
-      )}
-
       <nav>
-        <ul className="main-nav">
+        <ul className={isOpen ? "main-nav is-active" : " main-nav"}>
           <li>
-            <Link to="/">
+            <Link to="/" onClick={closeMenu}>
                 {/* <FontAwesomeIcon icon={faHouse} /> */}
                 Home
             </Link>
@@ -55,31 +69,33 @@ const Header = () => {
 
           {isAuthenticated() && isAdmin() && 
             <li>
-              <Link to="/create-post">
+              <Link to="/create-post" onClick={closeMenu}>
                 {/* <FontAwesomeIcon icon={faPenClip} /> */}
-                Create Post
+                Create
               </Link>
             </li>
           }
 
           {isAuthenticated() ? ( 
-            <li
-              onClick={handleLogOut}
-              className="main-nav_logout push-right"
-            >  
-              {/* <FontAwesomeIcon icon={faRightFromBracket} /> */}
-              Logout
+            <li>
+              <span onClick={() => {
+                handleLogOut();
+                closeMenu();
+              }}>
+                {/* <FontAwesomeIcon icon={faRightFromBracket} /> */}
+                Logout
+              </span>
             </li>
           ) : ( 
             <>
-              <li className="push-right">
-                <Link to="/register">
+              <li>
+                <Link to="/register" onClick={closeMenu}>
                   {/* <FontAwesomeIcon icon={faUserPlus} /> */}
                   Register
                 </Link>
               </li>
               <li>
-                <Link to="/login">
+                <Link to="/login" onClick={closeMenu}>
                   {/* <FontAwesomeIcon icon={faRightToBracket} /> */}
                   Login
                 </Link>
