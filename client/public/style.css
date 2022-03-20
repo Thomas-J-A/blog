@@ -65,6 +65,7 @@ table {
   --blue: #0277bd;
   --red: #f00;
   --black: #000;
+  --grey: #ccc;
 }
 
 
@@ -685,6 +686,7 @@ footer {
 }
 
 .post-detail_comment {
+  position: relative;
   margin-bottom: .5rem;
   border: 1px solid var(--black);
   padding: .5rem;
@@ -708,6 +710,84 @@ footer {
 
 .post-detail_comment_content {
   font-size: .9rem;
+}
+
+.post-detail_comment_remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+}
+
+#post-detail_form_title {
+  border: 1px solid var(--black);
+}
+
+#post-detail_form_title:focus {
+  box-shadow: 1px 1px 5px rgba(0,0,0,.5);  
+}
+
+#update-form_is-published label {
+  display: flex;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+#update-form_is-published input {
+  width: auto;
+  margin-right: .5rem;
+}
+
+#update-form_image {
+  position: relative;
+}
+
+#update-form_image input {
+  display: none;
+}
+
+#update-form_image svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: .7rem;
+  font-size: 2rem;
+  background-color: rgba(0,0,0,.5);
+  color: var(--white);
+  cursor: pointer;
+  transition: color 100ms;
+}
+
+#update-form_image svg:hover {
+  color: var(--grey);
+}
+
+#update-form_image span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: .7rem;
+  background-color: rgba(0,0,0,.5);
+  color: var(--white);
+}
+
+#update-form_buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#update-form_buttons button {
+  width: auto;
+  padding: .5rem .8rem;
+}
+
+#update-form_cancel {
+  margin-right: .6rem;
+  border: none;
+  border-radius: .3rem;
+  background-color: var(--blue);
+  color: var(--white);
+  outline: none;
 }
 
 @media screen and (min-width: 600px) {
@@ -764,8 +844,24 @@ footer {
 
 
 
+
+
+
+
+
+
 main {
   background-color: var(--off-white);
+}
+
+main.loading {
+  display: flex;
+  justify-content: center;
+}
+
+main.loading p {
+  margin-top: 3rem;
+  font-size: 2rem;
 }
 
 button[type="submit"] {

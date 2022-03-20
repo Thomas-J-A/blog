@@ -119,9 +119,9 @@ const PostDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="post-detail">
+      <main className="loading">
         <p>Loading...</p>
-      </div>
+      </main>
     );
   }
 
@@ -169,7 +169,7 @@ const PostDetail = () => {
                   <p>{formatDistance(new Date(comment.createdAt), new Date(), { addSuffix: true })}</p>
                 </div>  
                 <p className="post-detail_comment_content">{comment.content}</p>
-                {isAuthenticated() && isAdmin() && <FontAwesomeIcon icon={faXmarkCircle} onClick={() => removeComment(comment._id, id)} />}
+                {isAuthenticated() && isAdmin() && <FontAwesomeIcon icon={faXmarkCircle} onClick={() => removeComment(comment._id, id)} className="post-detail_comment_remove-btn" />}
               </div>
             ))
           ) : (

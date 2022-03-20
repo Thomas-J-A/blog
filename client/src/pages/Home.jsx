@@ -70,9 +70,9 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <div className="home">
+      <main className="loading">
         <p>Loading...</p>
-      </div>
+      </main>
     );
   }
 

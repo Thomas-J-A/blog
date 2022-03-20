@@ -111,9 +111,9 @@ const UpdatePostForm = ({ post, setPost, setIsEditMode }) => {
             <ErrorMessage name="title" component="div" className="feedback_error" />
           </div>
 
-          <p>{`Posted on ${format(new Date(post.createdAt), 'MMM dd, yyyy')}`}</p>
+          {/* <p>{`Posted on ${format(new Date(post.createdAt), 'MMM dd, yyyy')}`}</p> */}
 
-          <div className="form-group">
+          <div className="form-group" id="update-form_is-published">
             <label htmlFor="post-detail_form_is-published">
               <Field
                 type="checkbox"
@@ -124,7 +124,7 @@ const UpdatePostForm = ({ post, setPost, setIsEditMode }) => {
             </label>
           </div>
 
-          <div className="form-group">
+          <div className="form-group" id="update-form_image">
             {imageURL && <img src={imageURL} alt="" />}
 
             {/* Only show filename in UI after user selects a new one */}
@@ -161,8 +161,10 @@ const UpdatePostForm = ({ post, setPost, setIsEditMode }) => {
             <ErrorMessage name="content" component="div" className="feedback_error" />
           </div>
 
-          <button type="button" onClick={() => setIsEditMode(false)}>Cancel</button>
-          <button type="submit" disabled={isSubmitting}>Update</button>
+          <div id="update-form_buttons">
+            <button type="button" onClick={() => setIsEditMode(false)} id="update-form_cancel">Cancel</button>
+            <button type="submit" disabled={isSubmitting}>Update</button>
+          </div>
         </Form>
       )}
     </Formik>
