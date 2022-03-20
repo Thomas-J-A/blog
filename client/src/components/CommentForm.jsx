@@ -68,7 +68,7 @@ const CommentForm = ({ postId, setComments }) => {
       validateOnBlur={false}
     >
       {({ touched, errors, isSubmitting }) => (
-        <Form noValidate>
+        <Form noValidate className="post-detail_comments_form">
 
           <div className="form-group">
             <label htmlFor="post-detail_comments_form_content"></label>

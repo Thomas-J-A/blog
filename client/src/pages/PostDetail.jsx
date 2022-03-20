@@ -127,47 +127,55 @@ const PostDetail = () => {
 
   return (
     <main className="post-detail">
-      <Link to="/"><FontAwesomeIcon icon={faCircleLeft} />All Posts</Link>
-      <div className="post-detail_post">
-        {isEditMode ? (
-          <UpdatePostForm post={post} setPost={setPost} setIsEditMode={setIsEditMode} />
-        ) : (
-          <>
-            <h1>{post.title}</h1>
-            {isAuthenticated() && isAdmin() &&
-              <>
-                <FontAwesomeIcon icon={faPenToSquare} onClick={() => setIsEditMode(true)} />
-                <FontAwesomeIcon icon={faTrashCan} onClick={() => removePost()} />
-              </>
-            }
-            <p>{`Posted on ${format(new Date(post.createdAt), 'MMM dd, yyyy')}`}</p>
-            {isAuthenticated() && isAdmin() &&
-              <p>{post.isPublished ? 'Published' : 'Unpublished'}</p>
-            }
-            <img src={`http://localhost:3000/${post.imageURL}`} alt="" />
-            <p>{post.content}</p>
-          </>
-        )}
-      </div>
-     
-      <div className="post-detail_comments">
-        {!isAuthenticated() &&
-          <p><Link to="/login">Log in</Link> or <Link to="/register">create an account</Link> to leave a comment</p>
-        }
-        <h2>Comments ({comments.length})</h2>
-        {isAuthenticated() && <CommentForm postId={id} setComments={setComments} />}
-        {comments.length > 0 ? (
-          comments.map((comment) => (
-            <div className="post-detail_comment" key={comment._id}>
-              <p>{`${comment.author.firstName} ${comment.author.lastName}`}</p>
-              <p>{formatDistance(new Date(comment.createdAt), new Date(), { addSuffix: true })}</p>
-              <p>{comment.content}</p>
-              {isAuthenticated() && isAdmin() && <FontAwesomeIcon icon={faXmarkCircle} onClick={() => removeComment(comment._id, id)} />}
-            </div>
-          ))
-        ) : (
-          <p>Be the first to comment.</p>
-        )}
+      <div className="post-detail_wrapper">
+
+        <Link to="/" className="post-detail_back-btn"><FontAwesomeIcon icon={faCircleLeft} />All Posts</Link>
+
+        <div className="post-detail_post">
+          {isEditMode ? (
+            <UpdatePostForm post={post} setPost={setPost} setIsEditMode={setIsEditMode} />
+          ) : (
+            <>
+              <div className="post-detail_title_edit-btns">
+                <h1 className="post-detail_title">{post.title}</h1>
+                {isAuthenticated() && isAdmin() &&
+                  <>
+                    <FontAwesomeIcon icon={faPenToSquare} onClick={() => setIsEditMode(true)} className="post-detail_edit-btn" />
+                    <FontAwesomeIcon icon={faTrashCan} onClick={() => removePost()} className="post-detail_remove-btn" />
+                  </>
+                }
+              </div>
+              <p className="post-detail_date">{`Posted on ${format(new Date(post.createdAt), 'MMM dd, yyyy')}`}</p>
+              {isAuthenticated() && isAdmin() &&
+                <p className="post-detail_is-published">{post.isPublished ? 'Published' : 'Unpublished'}</p>
+              }
+              <img src={`http://localhost:3000/${post.imageURL}`} alt="" className="post-detail_img" />
+              <p className="post-detail_content">{post.content}</p>
+            </>
+          )}
+        </div>
+      
+        <div className="post-detail_comments">
+          {!isAuthenticated() &&
+            <p className="post-detail_comments_prompt"><Link to="/login">Log in</Link> or <Link to="/register">create an account</Link> to leave a comment</p>
+          }
+          <h2>Comments ({comments.length})</h2>
+          {isAuthenticated() && <CommentForm postId={id} setComments={setComments} />}
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <div className="post-detail_comment" key={comment._id}>
+                <div className="post-detail_comment_top">
+                  <p>{`${comment.author.firstName} ${comment.author.lastName}`}</p>
+                  <p>{formatDistance(new Date(comment.createdAt), new Date(), { addSuffix: true })}</p>
+                </div>  
+                <p className="post-detail_comment_content">{comment.content}</p>
+                {isAuthenticated() && isAdmin() && <FontAwesomeIcon icon={faXmarkCircle} onClick={() => removeComment(comment._id, id)} />}
+              </div>
+            ))
+          ) : (
+            <p>Be the first to comment.</p>
+          )}
+        </div>
       </div>
     </main>
   );
